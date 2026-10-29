@@ -114,3 +114,12 @@ No se pudo comprobar:
 ## Actualización posterior: CI en GitHub Actions
 
 Tras publicar el repo (2026-10-29), el flujo `.github/workflows/test.yml` corrió en los commits `7b6bb0d` y `19fe8e0`: los jobs `ubuntu-latest` y `macos-latest` terminaron en `success`, incluidos los pasos de shellcheck y `sh tests/run.sh`. Esto cubre los tests con el `claude` falso en macOS; no cubre una sesión real de Claude allí. Los logs no se pudieron leer (la API anónima no los entrega), así que la versión de tmux del runner de macOS no consta. Lo escrito arriba sobre macOS «sin verificar» refleja el estado previo a esta ejecución.
+
+## Actualización posterior: `tdd-gate.sh` con el plugin
+
+Verificado el 2026-10-29 con `claude -p --model haiku` (2.1.312) en repos temporales con `.claude/tdd-gate.conf` (`PROD_RE='^src/.+\.sh$'`, `TEST_DIRS=(tests)`, `TEST_CMD_RE='sh tests/run\.sh'`) y un test modificado y rojo sin commitear, dentro de un tmux real. Cada escenario se corrió sin plugin y con `--plugin-dir plugins/tmux-window-title`; se comparó el log de decisiones del propio `tdd-gate.sh` (`.claude/tdd/log`):
+- *Escribir `src/hello.sh` sin haber corrido el test*: ambos casos, `DENY` con el mismo motivo («el test cambiado no se ha corrido…»); el archivo no se creó.
+- *Correr `sh tests/run.sh` (falla) y luego escribir `src/hello.sh`*: ambos casos, `RUN fail` y escritura permitida; el archivo existe.
+- Con el plugin, la ventana pasó de `tmux` a `gate-<escenario>-1` y `@claude_n` llegó a 1 durante la corrida, así que el plugin actuó; sin plugin quedó en `tmux`/`bash`.
+
+No cubierto: una sola corrida por celda (el modelo no es determinista; el log de decisiones sí coincidió), solo modo `-p` (no interactivo), y solo `gate` y `record fail`; no se probaron `precommit`, `record pass`, `allow`/`clear` ni Edit. Esto sustituye lo anotado antes como «no se pudo comprobar» sobre `tdd-gate.sh`, solo para esos escenarios.
