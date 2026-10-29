@@ -6,8 +6,10 @@ FAILURES=0
 
 # Start an isolated tmux server with one detached session; export TMUX/TMUX_PANE.
 tmux_start() {
-    TEST_SOCKET="claude-title-test-$$-$(date +%s%N)"
-    export TEST_SOCKET
+    # mktemp -d with an explicit template works on GNU and BSD; its basename is unique
+    TEST_TMPDIR=$(mktemp -d "${TMPDIR:-/tmp}/claude-title-test.XXXXXX")
+    TEST_SOCKET=${TEST_TMPDIR##*/}
+    export TEST_SOCKET TEST_TMPDIR
     trap tmux_stop EXIT
     tmux -L "$TEST_SOCKET" -f /dev/null new-session -d -x 200 -y 50 -s test
     TMUX_PANE=$(tmux -L "$TEST_SOCKET" display-message -p -t test '#{pane_id}')
@@ -20,6 +22,7 @@ tmux_stop() {
     [ -n "${TEST_SOCKET:-}" ] && tmux -L "$TEST_SOCKET" kill-server 2>/dev/null
     # kill-server leaves the socket file behind
     [ -n "${TEST_SOCKET_PATH:-}" ] && rm -f "$TEST_SOCKET_PATH"
+    [ -n "${TEST_TMPDIR:-}" ] && rm -rf "$TEST_TMPDIR"
     return 0
 }
 
