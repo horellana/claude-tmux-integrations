@@ -1,0 +1,28 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tmux, jq and shellcheck (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y tmux jq shellcheck
+      - name: Install tmux, jq and shellcheck (macOS)
+        if: runner.os == 'macOS'
+        run: brew install tmux jq shellcheck
+      - name: Versions
+        run: tmux -V && jq --version && shellcheck --version && git --version
+      - name: Lint
+        run: shellcheck plugins/tmux-window-title/hooks/set-title.sh tests/*.sh
+      - name: Tests
+        run: sh tests/run.sh

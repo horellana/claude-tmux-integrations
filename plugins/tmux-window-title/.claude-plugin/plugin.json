@@ -1,5 +1,9 @@
 {
   "name": "tmux-window-title",
   "version": "0.1.0",
-  "description": "Renames the tmux window of a Claude Code session to reflect what it is doing."
+  "description": "Names the tmux window of a Claude Code session after the topic of the session.",
+  "license": "MIT",
+  "author": {
+    "name": "Hector Orellana"
+  }
 }
