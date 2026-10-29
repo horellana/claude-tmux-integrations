@@ -21,7 +21,7 @@ plugins/tmux-window-title/
   hooks/set-title.sh
   README.md
 tests/{lib.sh,lib_refine.sh,run.sh,test_*.sh}   # test_base_name, test_refine, test_cadence, test_manual, test_background, test_no_state_names, ...
-.github/workflows/test.yml                     # CI: shellcheck + tests en ubuntu y macOS (no ejecutado aún)
+.github/workflows/test.yml                     # CI: shellcheck + tests en ubuntu y macOS (pasa en ambos desde 7b6bb0d)
 manifest.scm + .envrc     # entorno Guix: tmux, jq, shellcheck
 .shellcheckrc
 LICENSE                   # MIT

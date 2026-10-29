@@ -39,7 +39,7 @@ characters.
   the window keeps its base name.
 
 On macOS, install the dependencies with Homebrew: `brew install tmux jq`.
-macOS has not been tested (see "Not verified").
+The tests pass on macOS in CI (see "Not verified" for what that does not cover).
 
 Outside tmux, with a failing tmux or any other error, the hook exits with code
 0 and prints nothing, so it never interrupts Claude. It does not emit
@@ -130,8 +130,10 @@ it stays off. Then all the `@claude_*` options are removed.
 
 - Tested only on Linux with tmux 3.8. No minimum tmux version has been
   verified, so none is claimed.
-- macOS has not been tested. A CI workflow (`.github/workflows/test.yml`)
-  with a Linux and macOS matrix is proposed but has not been run on either.
+- macOS: the test suite and shellcheck pass on `macos-latest` in GitHub
+  Actions (`.github/workflows/test.yml`), which uses a fake `claude`. A real
+  Claude session on macOS was not run, and that runner's tmux version was not
+  recorded.
 - A real interactive Claude session has not been verified yet; the tests use
   a fake `claude` (`CLAUDE_TMUX_TITLE_CMD`). The check with the real `claude`
   is a separate step.

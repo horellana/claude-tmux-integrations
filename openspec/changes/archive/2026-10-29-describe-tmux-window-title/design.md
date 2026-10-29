@@ -110,3 +110,7 @@ No se pudo comprobar:
 - `tdd-gate.sh` (hook de `~/.claude`, solo actúa en repos con `.claude/tdd-gate.conf`): no se comparó el efecto de sus decisiones con y sin el plugin. Solo hay un argumento estructural: el plugin ya solo engancha `SessionStart`, `UserPromptSubmit` y `SessionEnd`, y no emite decisiones.
 - macOS; sesiones con varios panes en una ventana; un tmux distinto de 3.8; coste en tokens medido de las evaluaciones.
 - Efecto lateral: aceptar el diálogo de confianza dejó registrado el directorio temporal del scratchpad como carpeta de confianza en la configuración de Claude.
+
+## Actualización posterior: CI en GitHub Actions
+
+Tras publicar el repo (2026-10-29), el flujo `.github/workflows/test.yml` corrió en los commits `7b6bb0d` y `19fe8e0`: los jobs `ubuntu-latest` y `macos-latest` terminaron en `success`, incluidos los pasos de shellcheck y `sh tests/run.sh`. Esto cubre los tests con el `claude` falso en macOS; no cubre una sesión real de Claude allí. Los logs no se pudieron leer (la API anónima no los entrega), así que la versión de tmux del runner de macOS no consta. Lo escrito arriba sobre macOS «sin verificar» refleja el estado previo a esta ejecución.

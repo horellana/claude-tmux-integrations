@@ -26,9 +26,14 @@ to write the window name; it can be turned off with `CLAUDE_TMUX_TITLE_LLM=0`.
 ## Status
 
 - Developed and tested on Linux with tmux 3.8.
-- macOS support is intended but has **not** been tested. A GitHub Actions
-  workflow (`.github/workflows/test.yml`) runs the tests on Linux and macOS.
-- The install commands above have not been tried from a fresh machine.
+- The test suite and shellcheck pass on `ubuntu-latest` and `macos-latest` in
+  GitHub Actions (`.github/workflows/test.yml`). The macOS runner's tmux
+  version was not recorded, and no real Claude session has been run on macOS
+  (the tests use a fake `claude`).
+- The install commands above were tried on Linux with an isolated Claude Code
+  config: the marketplace was added, the plugin installed, and the installed
+  hook ran against a real tmux. A full Claude session with the installed copy
+  was not run.
 
 ## Development
 
