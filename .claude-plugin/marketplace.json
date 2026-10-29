@@ -1,0 +1,11 @@
+{
+  "name": "claude-tmux-integration",
+  "owner": { "name": "Hector Orellana" },
+  "plugins": [
+    {
+      "name": "tmux-window-title",
+      "source": "./plugins/tmux-window-title",
+      "description": "Renames the tmux window of a Claude Code session to reflect what it is doing."
+    }
+  ]
+}

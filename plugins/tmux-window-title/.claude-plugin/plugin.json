@@ -1,0 +1,5 @@
+{
+  "name": "tmux-window-title",
+  "version": "0.1.0",
+  "description": "Renames the tmux window of a Claude Code session to reflect what it is doing."
+}

@@ -1,0 +1,7 @@
+# Resolve `. "$(dirname "$0")/lib.sh"` relative to each script
+source-path=SCRIPTDIR
+external-sources=true
+# Tests use `[ cond ]; assert_eq 0 "$?" ...` on purpose: $? is the result of the test itself
+disable=SC2319
+# Tests pass literal $(...) / #{...} strings to the hook to prove they are not expanded
+disable=SC2016
